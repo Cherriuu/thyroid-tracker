@@ -13,15 +13,15 @@ class SymptomLogForm(forms.ModelForm):
 class ConditionForm(forms.ModelForm):
     class Meta:
         model = Condition
-        fields = ['condition_type', 'diagnosis_date', 'current_medication', 'current_dosage']
-        widgets = {'diagnosis_date': forms.DateInput(attrs={'type': 'date'})}
+        fields = ['condition_type', 'date_of_diagnosis', 'current_medication', 'current_dosage']
+        widgets = {'date_of_diagnosis': forms.DateInput(attrs={'type': 'date'})}
 
 class MedicationLogForm(forms.ModelForm):
     class Meta:
         model = MedicationLog
-        fields = ['date', 'time_taken', 'taken_with_food', 'minutes_from_coffee_or_calcium']
+        fields = ['date_taken', 'time_taken', 'taken_with_food', 'minutes_from_coffee_or_calcium']
         widgets = {
-            'date': forms.DateInput(attrs={'type' : 'date'}),
+            'date_taken': forms.DateInput(attrs={'type' : 'date'}),
             'time_taken': forms.TimeInput(attrs={'type' : 'time'}),
         }
 

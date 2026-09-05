@@ -39,7 +39,7 @@ class SymptomLog(models.Model):
     notes = models.TextField(blank=True)
 
     def __str__(self):
-        return f"{self.date} - {self.get_symptom_type_display()} ({self.severity} / 5)"
+        return f"{self.date_logged} - {self.get_symptom_type_display()} ({self.severity} / 5)"
     
 class MedicationLog(models.Model):
     date_taken = models.DateField()
@@ -50,7 +50,7 @@ class MedicationLog(models.Model):
     owner = models.ForeignKey(Condition, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.date} {self.time_taken}" 
+        return f"{self.date_taken} {self.time_taken}"
 
 class LabResult(models.Model):
     TEST_CHOICES = [
