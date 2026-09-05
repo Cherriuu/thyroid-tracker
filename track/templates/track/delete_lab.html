@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Delete Lab Result?</h1>
+    <p>{{ lab.date_drawn }} - {{ lab.get_test_type_display }}: {{ lab.value }}</p>
+
+    <form action="{% url 'track:delete_lab' lab.id %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn-danger" type="submit">Yes, Delete</button>
+        <a class="btn btn-secondary" href="{% url 'track:lab_list' %}">Cancel</a>
+    </form>
+{% endblock %}

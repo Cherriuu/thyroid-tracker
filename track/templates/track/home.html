@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if not user.is_authenticated %}
+    <h1>Welcome to Thyroid Tracker</h1>
+    <p>Log in or register to start tracking your symptoms, medications, and lab results.</p>
+
+{% elif not condition %}
+    <h1>Let's set up your profile</h1>
+    <p>Before you can start logging, tell us about your condition.</p>
+    <a class="btn btn-primary" href="{% url 'track:setup_condition' %}">Set Up Condition</a>
+
+{% else %}
+    <h1>Welcome back</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">{{ condition.get_condition_type_display }}</h5>
+            <p class="card-text mb-1">Diagnosed: {{ condition.date_of_diagnosis }}</p>
+            <p class="card-text mb-0">Current medication: {{ condition.current_medication }} ({{ condition.current_dosage }})</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h5>Recent Symptoms</h5>
+            <ul class="list-group mb-3">
+                {% for symptom in recent_symptoms %}
+                    <li class="list-group-item">{{ symptom.date_logged }} - {{ symptom.get_symptom_type_display }} ({{ symptom.severity }}/5)</li>
+                {% empty %}
+                    <li class="list-group-item text-muted">No symptoms logged yet</li>
+                {% endfor %}
+            </ul>
+            <a class="btn btn-sm btn-outline-primary" href="{% url 'track:add_symptom' %}">Log Symptom</a>
+        </div>
+
+        <div class="col-md-4">
+            <h5>Recent Medications</h5>
+            <ul class="list-group mb-3">
+                {% for med in recent_medications %}
+                    <li class="list-group-item">{{ med.date_taken }} at {{ med.time_taken }}</li>
+                {% empty %}
+                    <li class="list-group-item text-muted">No medications logged yet</li>
+                {% endfor %}
+            </ul>
+            <a class="btn btn-sm btn-outline-primary" href="{% url 'track:add_medication' %}">Log Medication</a>
+        </div>
+
+        <div class="col-md-4">
+            <h5>Recent Labs</h5>
+            <ul class="list-group mb-3">
+                {% for lab in recent_labs %}
+                    <li class="list-group-item">{{ lab.date_drawn }} - {{ lab.get_test_type_display }}: {{ lab.value }}</li>
+                {% empty %}
+                    <li class="list-group-item text-muted">No labs logged yet</li>
+                {% endfor %}
+            </ul>
+            <a class="btn btn-sm btn-outline-primary" href="{% url 'track:add_lab' %}">Log Lab Result</a>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

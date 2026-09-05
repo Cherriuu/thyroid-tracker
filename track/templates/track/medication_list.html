@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Medications</h1>
+    <a class="btn btn-primary mb-3" href="{% url 'track:add_medication' %}">Log New Medication</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Taken with food</th>
+                <th>Min. from coffee/calcium</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for med in medications %}
+            <tr>
+                <td>{{ med.date_taken }}</td>
+                <td>{{ med.time_taken }}</td>
+                <td>{{ med.taken_with_food|yesno:"Yes,No" }}</td>
+                <td>{{ med.minutes_from_coffee_or_calcium|default:"—" }}</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'track:edit_medication' med.id %}">Edit</a>
+                    <a class="btn btn-sm btn-outline-danger" href="{% url 'track:delete_medication' med.id %}">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" class="text-muted">No medications logged yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
